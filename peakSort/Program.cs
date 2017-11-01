@@ -11,18 +11,16 @@ namespace peakSort
     {
         static void Main(string[] args)
         {
-            int argCount = args.Length;
-            Dictionary<string, double> data = new Dictionary<string, double>();
-            if(argCount == 1)
-            {
+            try {
+                Dictionary<string, double> data = new Dictionary<string, double>();
                 using (StreamReader r = new StreamReader(args[0]))
                 {
                     string line;
-                    while((line = r.ReadLine()) != null)
+                    while ((line = r.ReadLine()) != null)
                     {
                         string[] res = line.Split(',');
                         double val = double.Parse(res[1]);
-                        if(val > -65.0d)
+                        if (val > -65.0d)
                         {
                             data.Add(res[0], val);
                         }
@@ -31,9 +29,9 @@ namespace peakSort
 
                 using (StreamWriter w = new StreamWriter("peak_" + args[0]))
                 {
-                    foreach(KeyValuePair<string, double> elem in data)
+                    foreach (KeyValuePair<string, double> elem in data)
                     {
-                        w.WriteLine(elem.Key + ","+ elem.Value);
+                        w.WriteLine(elem.Key + "," + elem.Value);
                     }
                 }
 
@@ -42,7 +40,7 @@ namespace peakSort
                 using (StreamWriter w = new StreamWriter("diff_" + args[0]))
                 {
                     w.WriteLine("freq/80Mhz, dB");
-                    foreach(KeyValuePair<string, double> elem in data)
+                    foreach (KeyValuePair<string, double> elem in data)
                     {
                         if (row % 2 == 1)
                         {
@@ -54,8 +52,12 @@ namespace peakSort
                         }
                         row++;
                     }
-                   
+
                 }
+            } catch(IndexOutOfRangeException e)
+            {
+                Console.WriteLine("Check Usage");
+                return;
             }
         }
     }
